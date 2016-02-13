@@ -9,6 +9,6 @@
  * file that was distributed with this source code.
  */
 
-namespace Mvpasarel\Typekit\Exceptions;
+namespace Webeau\Typekit\Exceptions;
 
 class NoFontFoundException extends TypekitException {}

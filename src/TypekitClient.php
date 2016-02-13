@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Mvpasarel\Typekit;
+namespace Webeau\Typekit;
 
 use GuzzleHttp\Client;
-use Mvpasarel\Typekit\Exceptions\NoFontFoundException;
-use Mvpasarel\Typekit\Exceptions\NoKitFoundException;
-use Mvpasarel\Typekit\Exceptions\TypekitException;
+use Webeau\Typekit\Exceptions\NoFontFoundException;
+use Webeau\Typekit\Exceptions\NoKitFoundException;
+use Webeau\Typekit\Exceptions\TypekitException;
 
 class TypekitClient
 {

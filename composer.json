@@ -1,5 +1,5 @@
 {
-    "name": "mvpasarel/typekit-php",
+    "name": "webeau/typekit",
     "description": "PHP wrapper for Typekit Developer API",
     "keywords": [
         "typekit"
@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Mvpasarel\\Typekit\\": "src"
+            "Webeau\\Typekit\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Mvpasarel\\Typekit\\Test\\": "tests"
+            "Webeau\\Typekit\\Test\\": "tests"
         }
     },
     "extra": {
