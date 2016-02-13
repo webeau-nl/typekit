@@ -436,8 +436,8 @@ class TypekitClient
             'User-Agent' => $userAgent,
         ];
 
-        $body = $params;
-        $options = compact('headers', 'body');
+        $form_params = $params;
+        $options = compact('headers', 'form_params');
 
         if ($method == 'GET') {
             $response = $this->client->get($url, compact('headers'));
@@ -446,7 +446,8 @@ class TypekitClient
         } else if ($method == 'DELETE') {
             $response = $this->client->delete($url, $options);
         }
-        return $response->json();
+
+        return \GuzzleHttp\json_decode((string)$response->getBody(), true);
     }
 
     /**
