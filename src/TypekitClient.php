@@ -62,13 +62,21 @@ class TypekitClient
     private $client;
 
     /**
+     * Typekit API param https://typekit.com/docs/api/css_names
+     *
+     * @var bool
+     */
+    protected $segmentedCssNames;
+
+    /**
      * Create a new Typekit Instance
      * @param $token
      * @param array $domains
      * @param bool $debug
+     * @param bool $segmentedCssNames
      * @throws TypekitException
      */
-    public function __construct($token, $domains = ['localhost'], $debug = false)
+    public function __construct($token, $domains = ['localhost'], $debug = false, $segmentedCssNames = false)
     {
 
         if (!$token) {
@@ -79,6 +87,8 @@ class TypekitClient
         $this->debug = $debug;
         $this->domains = $domains;
         $this->client = new Client();
+
+        $this->segmentedCssNames = $segmentedCssNames;
     }
 
     /**
@@ -124,6 +134,10 @@ class TypekitClient
     private function modifyKit($kitId = null, $name = '', $domains = [], $families = [], $optimize = null)
     {
         $params = [];
+
+        if (!$this->segmentedCssNames) {
+            $params['segmented_css_names'] = false;
+        }
 
         if ($name) {
             $params['name'] = $name;
