@@ -117,10 +117,11 @@ class TypekitClient
      * @param array $families
      *  - 'id' => family id (string)
      *  - (optional) 'variations' => comma separated variations (string)
+     * @param bool $optimize
      * @return bool If successful returns true, else returns false
      * @throws TypekitException
      */
-    private function modifyKit($kitId = null, $name = '', $domains = [], $families = [])
+    private function modifyKit($kitId = null, $name = '', $domains = [], $families = [], $optimize = null)
     {
         $params = [];
 
@@ -148,8 +149,13 @@ class TypekitClient
             }
         }
 
-        $url = $this->buildUrl('create');
-        if (!is_null($kitId)) {
+        if ($optimize !== null) {
+            $params['optimize_performance'] = $optimize;
+        }
+
+        if (is_null($kitId)) {
+            $url = $this->buildUrl('create');
+        } else {
             $url = $this->buildUrl('update', $kitId);
         }
 
@@ -163,11 +169,12 @@ class TypekitClient
      * @param string $name
      * @param array $domains
      * @param array $families
+     * @param bool $optimize
      * @return string
      */
-    public function updateKit($kitId, $name = '', $domains = [], $families = [])
+    public function updateKit($kitId, $name = '', $domains = [], $families = [], $optimize = null)
     {
-        return $this->modifyKit($kitId, $name, $domains, $families);
+        return $this->modifyKit($kitId, $name, $domains, $families, $optimize);
     }
 
     /**
@@ -175,13 +182,14 @@ class TypekitClient
      * @param string $name
      * @param array $domains
      * @param array $families
+     * @param bool $optimize
      * @return mixed
      */
-    public function createKit($name = '', $domains = [], $families = [])
+    public function createKit($name = '', $domains = [], $families = [], $optimize = null)
     {
         $kitId = null;
 
-        return $this->modifyKit($kitId, $name, $domains, $families);
+        return $this->modifyKit($kitId, $name, $domains, $families, $optimize);
     }
 
     /**
@@ -206,6 +214,19 @@ class TypekitClient
         $url = $this->buildUrl('publish', $kitId);
 
         return $this->makeRequest('POST', $url);
+    }
+
+    /**
+     * Change optimized performance flag
+     *
+     * @param $kitId
+     * @param bool $optimize
+     * @return bool
+     * @throws TypekitException
+     */
+    public function optimizeKit($kitId, $optimize = true)
+    {
+        return $this->modifyKit($kitId, '', [], [], $optimize);
     }
 
     /**

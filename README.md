@@ -1,10 +1,4 @@
-# mvpasarel/typekit-php
-[![Latest Version](https://img.shields.io/github/release/mvpasarel/typekit-php.svg?style=flat-square)](https://github.com/mvpasarel/typekit-php/releases)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/mvpasarel/typekit-php/master.svg?style=flat-square)](https://travis-ci.org/mvpasarel/typekit-php)
-[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/mvpasarel/typekit-php.svg?style=flat-square)](https://scrutinizer-ci.com/g/mvpasarel/typekit-php/code-structure)
-[![Quality Score](https://img.shields.io/scrutinizer/g/mvpasarel/typekit-php.svg?style=flat-square)](https://scrutinizer-ci.com/g/mvpasarel/typekit-php)
-[![Total Downloads](https://img.shields.io/packagist/dt/mvpasarel/typekit-php.svg?style=flat-square)](https://packagist.org/packages/mvpasarel/typekit-php)
+# webeau/typekit
 
 Typekit Client implementation with PHP
 
@@ -13,7 +7,7 @@ Typekit Client implementation with PHP
 Via Composer
 
 ```
-$ composer require mvpasarel/typekit-php
+$ composer require webeau/typekit
 ```
 
 ## Usage
@@ -23,7 +17,7 @@ Initialize the client with your developer API token. You can get your API token 
 
 
 ```
-$typekit = new \Mvpasarel\Typekit\TypekitClient('<API token>');
+$typekit = new \Webeau\Typekit\TypekitClient('<API token>');
 ```
 
 ### Get all kits
@@ -44,32 +38,33 @@ $typekit->getKit($kitId);
 
 ### Create kit
 
-To create a new kit, use the method `createKit($name, $domains, $families)`. `Name` and `domains` 
-fields are required, but the `families` field is not.
+To create a new kit, use the method `createKit($name, $domains, $families, $optimize=null)`. `Name` and `domains` 
+fields are required, but the `families` and `optimize` fields are not.
 
 The arguments are in the following format:
 
 - **$name**: string
-- **$domains**: PHP array of strings of format `array('localhost', '*.domain.com', '127.0.0.1')`
+- **$domains**: PHP array of strings of format `['localhost', '*.domain.com', '127.0.0.1']`
 - **$families**: set of arrays with the following key => values
     - 'id' : font family id (string)
     - (optional) 'variations' : comma separated variations (string).
+- **$optimize: boolean
 
-An example of the families format is: `$families = array(array('id' => 'ftnk', 'variations' => 'n3,n4'), array('id' => 'pcpv', 'variations' => 'n4'))` in which case we would create a kit with the font families Futura-PT and Droid Sans with font variations normal 3 ($font-weight:300 and not italicized or strong), normal 4 and normal 4, respectively.
+An example of the families format is: `$families = [['id' => 'ftnk', 'variations' => 'n3,n4'], ['id' => 'pcpv', 'variations' => 'n4']]` in which case we would create a kit with the font families Futura-PT and Droid Sans with font variations normal 3 ($font-weight:300 and not italicized or strong), normal 4 and normal 4, respectively.
 
 Example usage:
 
     $name = 'example typekit kit';
 
-    $domains = array('localhost', '*.domain.com');
+    $domains = ['localhost', '*.domain.com'];
 
-    $families = array(array('id' => 'ftnk', 'variations' => 'n3,n4'), array('id' => 'pcpv', 'variations' => 'n4'));
+    $families = [['id' => 'ftnk', 'variations' => 'n3,n4'], ['id' => 'pcpv', 'variations' => 'n4']];
 
     $typekit->createKit($name, $domains, $families);
 
 ### Update kit
 
-To create a new kit, use the method `updateKit($kitId, $name='', $domains=array(), $families=array())`. 
+To create a new kit, use the method `updateKit($kitId, $name='', $domains=[], $families=[], $optimize=null)`. 
 The only required field is `$kitId` and `name`. `domains` and `families` fields are not required.
 
 Field formats are the same as `createKit`.
@@ -116,7 +111,7 @@ same as for `getFontFamily($font)`. This method returns a PHP array of all possi
     $variations = $typekit->getFontVariations('ftnk'); # using font id
     
     OUTPUT:
-    array('n3', 'i3', 'n4', 'i4', 'n5', 'i5', 'n7', 'i7', 'n8', 'i8')
+    ['n3', 'i3', 'n4', 'i4', 'n5', 'i5', 'n7', 'i7', 'n8', 'i8']
 
 ### Add font to kit
 
@@ -124,7 +119,7 @@ To add font to kit, use the method `kitAddFont($kitId, $font, $variations)`. Arg
 same format as the ones above, BUT variations should be in array. Returns nothing.
 
 ```
-$typekit->kitAddFont('$kitId', 'futura-pt', array(n3,n5,n7));
+$typekit->kitAddFont('$kitId', 'futura-pt', [n3,n5,n7]);
 ```
 
 ### Remove font from kit
@@ -137,6 +132,8 @@ $typekit->kitRemoveFont($kitId, 'futura-pt');
 ```
 
 ### Other methods
+
+`optimizeKit($kitId, $optimize)` - Set/unset optimized performance for a kit
 
 `getKitValues($kitId)` - Retrieves kit values in an array of format: [$name, $domains, $families]
 
