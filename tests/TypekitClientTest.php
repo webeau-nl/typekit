@@ -1,12 +1,11 @@
 <?php
 
-namespace Mvpasarel\Typekit\Test;
+namespace Webeau\Typekit\Test;
 
-use Mvpasarel\Typekit\TypekitClient;
+use Webeau\Typekit\TypekitClient;
 
 class TypekitClientTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var TypekitClient
      */
@@ -14,7 +13,6 @@ class TypekitClientTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-
         $this->typekit = new TypekitClient(getenv('TYPEKIT_TOKEN'));
     }
 
@@ -61,7 +59,6 @@ class TypekitClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetKit()
     {
-
         $name = 'test_kit_creation';
         $domains = ['localhost', '*.domain.com'];
         $families = [['id' => 'ftnk', 'variations' => 'n3,n4'], ['id' => 'pcpv', 'variations' => 'n4']];
@@ -99,7 +96,6 @@ class TypekitClientTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFontFamily()
     {
-
         $font = $this->typekit->getFontFamily('futura-pt');
         $this->assertEquals($font['family']['id'], 'ftnk');
         $this->assertEquals($font['family']['name'], 'Futura PT');
@@ -124,7 +120,6 @@ class TypekitClientTest extends \PHPUnit_Framework_TestCase
 
         $this->typekit->removeKit($kitId);
     }
-
 
     public function testKit_addFont()
     {
@@ -175,7 +170,6 @@ class TypekitClientTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->typekit->kitContainsFont($kitId, 'droid-serif'));
 
         $this->typekit->removeKit($kitId);
-
     }
 
     public function testGetKitFonts()
@@ -194,5 +188,4 @@ class TypekitClientTest extends \PHPUnit_Framework_TestCase
 
         $this->typekit->removeKit($kitId);
     }
-
 }

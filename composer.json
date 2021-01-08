@@ -4,7 +4,7 @@
     "keywords": [
         "typekit"
     ],
-    "homepage": "https://github.com/mvpasarel/typekit-php",
+    "homepage": "https://github.com/webeau-nl/typekit",
     "license": "MIT",
     "authors": [
         {
@@ -31,6 +31,9 @@
         "psr-4": {
             "Webeau\\Typekit\\Test\\": "tests"
         }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
     },
     "extra": {
         "branch-alias": {

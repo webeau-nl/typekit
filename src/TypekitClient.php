@@ -18,7 +18,6 @@ use Webeau\Typekit\Exceptions\TypekitException;
 
 class TypekitClient
 {
-
     /**
      * API Client version
      *
@@ -57,7 +56,7 @@ class TypekitClient
     /**
      * Guzzle HTTP Client
      *
-     * @var Client
+     * @var \GuzzleHttp\Client
      */
     private $client;
 
@@ -78,7 +77,6 @@ class TypekitClient
      */
     public function __construct($token, $domains = ['localhost'], $debug = false, $segmentedCssNames = false)
     {
-
         if (!$token) {
             throw new TypekitException('The Typekit API Token must be provided');
         }
@@ -96,7 +94,6 @@ class TypekitClient
      */
     public function getKits()
     {
-
         return $this->makeRequest('GET', $this->buildUrl('list'));
     }
 
@@ -149,7 +146,6 @@ class TypekitClient
 
         if (!empty($families)) {
             foreach ($families as $idx => $family) {
-
                 if (!isset($family['id'])) {
 
                     throw new TypekitException('The "id" key is required for families');
@@ -276,7 +272,7 @@ class TypekitClient
 
         $variations = [];
 
-        if (isset($font['family']) && isset($font['family']['variations']) && !empty($font['family']['variations'])) {
+        if (!empty($font['family']['variations'])) {
             foreach ($font['family']['variations'] as $var) {
                 $variations[] = $var['fvd'];
             }
@@ -300,19 +296,13 @@ class TypekitClient
     {
         $kitFonts = $this->getKitFonts($kit);
 
-        if (count($kitFonts) == 0) {
-
+        if (count($kitFonts) === 0) {
             return false;
         }
 
         $font = $this->getFontFamily($font);
 
-        if (isset($font['family']) && isset($font['family']['id']) && in_array($font['family']['id'], $kitFonts)) {
-
-            return true;
-        }
-
-        return false;
+        return isset($font['family']['id']) && in_array($font['family']['id'], $kitFonts);
     }
 
 
@@ -364,7 +354,7 @@ class TypekitClient
      * Else, removes font to kit, returns.
      * @param $kitId
      * @param $font
-     * @return mixed
+     * @return void
      */
     public function kitRemoveFont($kitId, $font)
     {
@@ -420,7 +410,7 @@ class TypekitClient
     {
         $kit = $this->getKit($kitId);
         $fonts = [];
-        if (isset($kit['kit']) && isset($kit['kit']['families']) && !empty($kit['kit']['families'])) {
+        if (!empty($kit['kit']['families'])) {
             foreach ($kit['kit']['families'] as $family) {
                 $fonts[] = $family['id'];
             }
@@ -474,11 +464,11 @@ class TypekitClient
         $form_params = $params;
         $options = compact('headers', 'form_params');
 
-        if ($method == 'GET') {
+        if ($method === 'GET') {
             $response = $this->client->get($url, compact('headers'));
-        } else if ($method == 'POST') {
+        } elseif ($method === 'POST') {
             $response = $this->client->post($url, $options);
-        } else if ($method == 'DELETE') {
+        } elseif ($method === 'DELETE') {
             $response = $this->client->delete($url, $options);
         }
 
@@ -495,19 +485,19 @@ class TypekitClient
     {
         $url = $this->host;
 
-        if ($method == 'list' || $method == 'create') {
+        if ($method === 'list' || $method === 'create') {
             $url .= 'kits';
         }
 
-        if ($method == 'get' || $method == 'update' || $method == 'delete') {
+        if ($method === 'get' || $method === 'update' || $method === 'delete') {
             $url .= 'kits/' . urlencode($kitId);
         }
 
-        if ($method == 'publish') {
+        if ($method === 'publish') {
             $url .= 'kits/' . urlencode($kitId) . '/publish';
         }
 
-        if ($method == 'families') {
+        if ($method === 'families') {
             $url .= 'families/' . urlencode($font);
         }
 

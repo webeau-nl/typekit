@@ -7,7 +7,7 @@ Typekit Client implementation with PHP
 Via Composer
 
 ```
-$ composer require webeau/typekit
+composer require webeau/typekit
 ```
 
 ## Usage
@@ -144,7 +144,7 @@ $typekit->kitRemoveFont($kitId, 'futura-pt');
 ## Testing
 
 ```
-$ TYPEKIT_TOKEN=<API token> phpunit
+TYPEKIT_TOKEN=<API token> composer test
 ```
 
 ## Contributing
